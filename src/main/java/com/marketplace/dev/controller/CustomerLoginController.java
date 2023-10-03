@@ -15,11 +15,11 @@ public class CustomerLoginController {
 
     @GetMapping("/secured")
     public String secured(){
-        return "oke, doke";
+        return "Secured!";
     }
 
     @GetMapping("/useremail")
     public String useremail(@AuthenticationPrincipal OAuth2User user){
-        return user.getAttribute("name");
+        return user.getAttribute("sub");
     }
 }
