@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -20,8 +21,6 @@ public class CustomerLoginService {
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    //TODO: save authentication data of customers on login with google account
 
     public void saveCustomer(final Customer customer){
         LOGGER.info("Creating customer with name: " + customer.getCustomerName());
@@ -38,5 +37,27 @@ public class CustomerLoginService {
         return customers;
     }
 
+    public Customer findCustomer(final int id){
+        LOGGER.info("Searching for customer with id: " + id);
 
+        Optional<Customer> customer = customerRepository.findById(id);
+
+        if(customer.isPresent()){
+            return customer.get();
+        }
+        else
+        {
+            throw new RuntimeException("ERROR: Could no find customer with id: " + id);
+        }
+    }
+
+    public void updateCustomer(final Customer customer){
+        LOGGER.info("Updating customer with id: " + customer.getCustomerID());
+        customerRepository.save(customer);
+    }
+
+    public void deleteCustomer(final int id){
+        LOGGER.info("Deleting customer with id " + id);
+        customerRepository.deleteById(id);
+    }
 }
